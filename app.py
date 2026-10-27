@@ -7,4 +7,15 @@ figure = px.pie(données, values='qte', names='region', title='quantité vendue 
 
 figure.write_html('ventes-par-region.html')
 
+
 print('ventes-par-région.html généré avec succès !')
+
+
+
+px.pie(données.groupby('produit', as_index=False).sum()
+       , values='qte', names='produit', title='quantité vendue par produit').write_html('ventes-par-produit.html')
+
+
+chiffre_affaire_produit = données.assign(chiffre_affaires=données['prix'] * données['qte']).groupby('produit', as_index=False)['chiffre_affaires'].sum()
+
+px.pie(chiffre_affaire_produit, values='chiffre_affaires', names='produit', title="chiffre d'affaires par produit").write_html('chiffre-affaire-par-produit.html')
